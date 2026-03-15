@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -104,6 +103,8 @@ font-size:16px;
 Form Pemesanan Tas Travel
 </div>
 
+<form onsubmit="kirimWA(event)">
+
 <div class="section">
 
 <div class="section-title">
@@ -122,47 +123,49 @@ Produk yang dipesan
 
 </div>
 
-
 <div class="section">
 
 <div class="section-title">
 Lengkapi alamat pengiriman
 </div>
 
-<select id="pembayaran">
+<select id="pembayaran" required>
 <option value="">Metode Pembayaran</option>
 <option value="Cash on Delivery">Cash on Delivery (COD)</option>
 <option value="Transfer Bank">Transfer Bank</option>
 </select>
 
-<input type="text" id="nama" placeholder="Nama Penerima">
+<input type="text" id="nama" placeholder="Nama Penerima" required>
 
-<input type="text" id="jalan" placeholder="Nama Jalan (contoh: JL.Anggrek)">
+<input type="text" id="jalan" placeholder="Nama Jalan (contoh: JL.Anggrek)" required>
 
-<input type="number" id="rt" placeholder="RT (hanya angka)">
+<input type="number" id="rt" placeholder="RT (hanya angka)" required>
 
-<input type="number" id="rumah" placeholder="No Rumah (hanya angka)">
+<input type="number" id="rumah" placeholder="No Rumah (hanya angka)" required>
 
-<input type="text" id="kelurahan" placeholder="Kelurahan / Desa">
+<input type="text" id="kelurahan" placeholder="Kelurahan / Desa" required>
 
-<input type="text" id="kecamatan" placeholder="Kecamatan">
+<input type="text" id="kecamatan" placeholder="Kecamatan" required>
 
-<input type="text" id="kota" placeholder="Kota / Kabupaten">
+<input type="text" id="kota" placeholder="Kota / Kabupaten" required>
 
-<input type="text" id="provinsi" placeholder="Provinsi">
+<input type="text" id="provinsi" placeholder="Provinsi" required>
 
-<textarea id="catatan" placeholder="Catatan Rumah / Patokan"></textarea>
-
-</div>
-
-<button onclick="kirimWA()">Kirim Pesanan</button>
+<textarea id="catatan" placeholder="Catatan Rumah / Patokan" required></textarea>
 
 </div>
 
+<button type="submit">Kirim Pesanan</button>
+
+</form>
+
+</div>
 
 <script>
 
-function kirimWA(){
+function kirimWA(e){
+
+e.preventDefault();
 
 var pink=parseInt(document.getElementById("pink").value) || 0;
 var hitam=parseInt(document.getElementById("hitam").value) || 0;
@@ -170,7 +173,7 @@ var hitam=parseInt(document.getElementById("hitam").value) || 0;
 var harga=91000;
 
 if(pink==0 && hitam==0){
-alert("Silakan pilih jumlah produk dulu ya");
+alert("Silakan pilih jumlah produk dulu ya 😊");
 return;
 }
 
@@ -190,11 +193,6 @@ var kec=document.getElementById("kecamatan").value;
 var kota=document.getElementById("kota").value;
 var prov=document.getElementById("provinsi").value;
 var catatan=document.getElementById("catatan").value;
-
-if(nama=="" || jalan=="" || rt=="" || rumah=="" || kel=="" || kec=="" || kota=="" || prov=="" || catatan==""){
-alert("Mohon lengkapi semua alamat pengiriman ya 😊");
-return;
-}
 
 var alamat=jalan+" RT."+rt+" No."+rumah;
 
@@ -230,7 +228,7 @@ alamat+"%0A"+
 detail+"%0A"+
 
 "*Metode Pembayaran:* "+pembayaran+"%0A"+
-"_*Ongkos Kirim: Rp0*_"+"%0A"+
+"_*Ongkos Kirim: Rp0*_%0A"+
 "*Total Harga:* Rp"+formatHarga+"%0A%0A"+
 
 "Mohon segera diproses ya. Terima kasih 🙏";
