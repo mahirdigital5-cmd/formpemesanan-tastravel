@@ -129,29 +129,29 @@ Produk yang dipesan
 Lengkapi alamat pengiriman
 </div>
 
-<select id="pembayaran" required>
+<select id="pembayaran">
 <option value="">Metode Pembayaran</option>
 <option value="Cash on Delivery">Cash on Delivery (COD)</option>
 <option value="Transfer Bank">Transfer Bank</option>
 </select>
 
-<input type="text" id="nama" placeholder="Nama Penerima" required>
+<input type="text" id="nama" placeholder="Nama Penerima">
 
-<input type="text" id="jalan" placeholder="Nama Jalan (contoh: JL.Anggrek)" required>
+<input type="text" id="jalan" placeholder="Nama Jalan (contoh: JL.Anggrek)">
 
-<input type="number" id="rt" placeholder="RT (hanya angka)" required>
+<input type="number" id="rt" placeholder="RT (hanya angka)">
 
-<input type="number" id="rumah" placeholder="No Rumah (hanya angka)" required>
+<input type="number" id="rumah" placeholder="No Rumah (hanya angka)">
 
-<input type="text" id="kelurahan" placeholder="Kelurahan / Desa" required>
+<input type="text" id="kelurahan" placeholder="Kelurahan / Desa">
 
-<input type="text" id="kecamatan" placeholder="Kecamatan" required>
+<input type="text" id="kecamatan" placeholder="Kecamatan">
 
-<input type="text" id="kota" placeholder="Kota / Kabupaten" required>
+<input type="text" id="kota" placeholder="Kota / Kabupaten">
 
-<input type="text" id="provinsi" placeholder="Provinsi" required>
+<input type="text" id="provinsi" placeholder="Provinsi">
 
-<textarea id="catatan" placeholder="Catatan Rumah / Patokan" required></textarea>
+<textarea id="catatan" placeholder="Catatan Rumah / Patokan"></textarea>
 
 </div>
 
@@ -165,28 +165,30 @@ Lengkapi alamat pengiriman
 
 document.getElementById("formPesanan").addEventListener("submit", function(e){
 
+e.preventDefault();
+
 var pink=parseInt(document.getElementById("pink").value) || 0;
 var hitam=parseInt(document.getElementById("hitam").value) || 0;
 
+/* CEK PRODUK */
+
 if(pink==0 && hitam==0){
-e.preventDefault();
 alert("Silakan pilih jumlah tas yang ingin dipesan 😊");
 document.getElementById("pink").focus();
 return;
 }
 
-kirimWA();
-
-});
-
-function kirimWA(){
-
-var pink=parseInt(document.getElementById("pink").value) || 0;
-var hitam=parseInt(document.getElementById("hitam").value) || 0;
-
-var harga=91000;
+/* CEK PEMBAYARAN */
 
 var pembayaran=document.getElementById("pembayaran").value;
+
+if(pembayaran==""){
+alert("Silakan pilih metode pembayaran dulu 😊");
+document.getElementById("pembayaran").focus();
+return;
+}
+
+/* CEK ALAMAT */
 
 var nama=document.getElementById("nama").value;
 var jalan=document.getElementById("jalan").value;
@@ -197,6 +199,64 @@ var kec=document.getElementById("kecamatan").value;
 var kota=document.getElementById("kota").value;
 var prov=document.getElementById("provinsi").value;
 var catatan=document.getElementById("catatan").value;
+
+if(nama==""){
+alert("Mohon isi nama penerima 😊");
+document.getElementById("nama").focus();
+return;
+}
+
+if(jalan==""){
+alert("Mohon isi nama jalan 😊");
+document.getElementById("jalan").focus();
+return;
+}
+
+if(rt==""){
+alert("Mohon isi RT 😊");
+document.getElementById("rt").focus();
+return;
+}
+
+if(rumah==""){
+alert("Mohon isi nomor rumah 😊");
+document.getElementById("rumah").focus();
+return;
+}
+
+if(kel==""){
+alert("Mohon isi kelurahan 😊");
+document.getElementById("kelurahan").focus();
+return;
+}
+
+if(kec==""){
+alert("Mohon isi kecamatan 😊");
+document.getElementById("kecamatan").focus();
+return;
+}
+
+if(kota==""){
+alert("Mohon isi kota atau kabupaten 😊");
+document.getElementById("kota").focus();
+return;
+}
+
+if(prov==""){
+alert("Mohon isi provinsi 😊");
+document.getElementById("provinsi").focus();
+return;
+}
+
+if(catatan==""){
+alert("Mohon isi catatan rumah / patokan 😊");
+document.getElementById("catatan").focus();
+return;
+}
+
+/* PROSES KIRIM */
+
+var harga=91000;
 
 var alamat=jalan+" RT."+rt+" No."+rumah;
 
@@ -241,7 +301,7 @@ var url="https://api.whatsapp.com/send?phone=15558770694&text="+pesan;
 
 window.location.href=url;
 
-}
+});
 
 </script>
 
