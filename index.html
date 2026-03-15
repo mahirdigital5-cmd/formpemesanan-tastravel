@@ -103,7 +103,7 @@ font-size:16px;
 Form Pemesanan Tas Travel
 </div>
 
-<form onsubmit="kirimWA(event)">
+<form id="formPesanan">
 
 <div class="section">
 
@@ -163,26 +163,30 @@ Lengkapi alamat pengiriman
 
 <script>
 
-function kirimWA(e){
+document.getElementById("formPesanan").addEventListener("submit", function(e){
 
+var pink=parseInt(document.getElementById("pink").value) || 0;
+var hitam=parseInt(document.getElementById("hitam").value) || 0;
+
+if(pink==0 && hitam==0){
 e.preventDefault();
+alert("Silakan pilih jumlah tas yang ingin dipesan 😊");
+document.getElementById("pink").focus();
+return;
+}
+
+kirimWA();
+
+});
+
+function kirimWA(){
 
 var pink=parseInt(document.getElementById("pink").value) || 0;
 var hitam=parseInt(document.getElementById("hitam").value) || 0;
 
 var harga=91000;
 
-if(pink==0 && hitam==0){
-alert("Silakan pilih jumlah produk dulu ya 😊");
-return;
-}
-
 var pembayaran=document.getElementById("pembayaran").value;
-
-if(pembayaran==""){
-alert("Tolong pilih metode pembayaran ya 😊");
-return;
-}
 
 var nama=document.getElementById("nama").value;
 var jalan=document.getElementById("jalan").value;
