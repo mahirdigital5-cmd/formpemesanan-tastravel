@@ -1,12 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Form Pemesanan Tas Travel</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <style>
 
 body{
 font-family:'Segoe UI', Arial, sans-serif;
 background: linear-gradient(135deg,#4facfe,#00f2fe);
-display:flex;
-justify-content:center;
-align-items:flex-start;
-min-height:100vh;
 margin:0;
 padding:30px 15px;
 }
@@ -18,6 +21,7 @@ border-radius:16px;
 box-shadow:0 10px 30px rgba(0,0,0,0.2);
 width:100%;
 max-width:450px;
+margin:30px auto;
 animation:fadeIn .5s ease;
 }
 
@@ -30,8 +34,15 @@ to{opacity:1; transform:translateY(0);}
 font-size:22px;
 font-weight:700;
 text-align:center;
-margin-bottom:20px;
+margin-bottom:10px;
 color:#222;
+}
+
+.subtitle{
+text-align:center;
+font-size:13px;
+color:#666;
+margin-bottom:15px;
 }
 
 .section{
@@ -118,3 +129,134 @@ transform:scale(.98);
 }
 
 </style>
+</head>
+
+<body>
+
+<div class="box">
+
+<div class="title">Form Pemesanan Tas Travel</div>
+<div class="subtitle">🔥 Promo Hari Ini - Gratis Ongkir!</div>
+
+<form id="formPesanan">
+
+<div class="section">
+<div class="section-title">Produk yang dipesan</div>
+
+<div class="product">
+<span>Tas Travel Pink</span>
+<input type="number" id="pink" value="0" min="0">
+</div>
+
+<div class="product">
+<span>Tas Travel Hitam</span>
+<input type="number" id="hitam" value="0" min="0">
+</div>
+
+</div>
+
+<div class="section">
+<div class="section-title">Lengkapi alamat pengiriman</div>
+
+<select id="pembayaran">
+<option value="">Metode Pembayaran</option>
+<option value="Cash on Delivery">Cash on Delivery (COD)</option>
+<option value="Transfer Bank">Transfer Bank</option>
+</select>
+
+<input type="text" id="nama" placeholder="Nama Penerima">
+<input type="text" id="jalan" placeholder="Nama Jalan (contoh: JL.Anggrek)">
+<input type="number" id="rt" placeholder="RT (angka)">
+<input type="number" id="rumah" placeholder="No Rumah (angka)">
+<input type="text" id="kelurahan" placeholder="Kelurahan / Desa">
+<input type="text" id="kecamatan" placeholder="Kecamatan">
+<input type="text" id="kota" placeholder="Kota / Kabupaten">
+<input type="text" id="provinsi" placeholder="Provinsi">
+<textarea id="catatan" placeholder="Catatan Rumah / Patokan"></textarea>
+
+</div>
+
+<button type="submit">Kirim Pesanan</button>
+
+</form>
+</div>
+
+<script>
+
+document.getElementById("formPesanan").addEventListener("submit", function(e){
+
+e.preventDefault();
+
+var pink=parseInt(document.getElementById("pink").value) || 0;
+var hitam=parseInt(document.getElementById("hitam").value) || 0;
+
+if(pink==0 && hitam==0){
+alert("Silakan pilih jumlah tas yang ingin dipesan 😊");
+return;
+}
+
+var pembayaran=document.getElementById("pembayaran").value;
+
+if(pembayaran==""){
+alert("Silakan pilih metode pembayaran dulu 😊");
+return;
+}
+
+var nama=document.getElementById("nama").value;
+var jalan=document.getElementById("jalan").value;
+var rt=document.getElementById("rt").value;
+var rumah=document.getElementById("rumah").value;
+var kel=document.getElementById("kelurahan").value;
+var kec=document.getElementById("kecamatan").value;
+var kota=document.getElementById("kota").value;
+var prov=document.getElementById("provinsi").value;
+var catatan=document.getElementById("catatan").value;
+
+if(nama=="" || jalan=="" || rt=="" || rumah=="" || kel=="" || kec=="" || kota=="" || prov=="" || catatan==""){
+alert("Mohon lengkapi semua data alamat 😊");
+return;
+}
+
+var harga=91000;
+
+var alamat=jalan+" RT."+rt+" No."+rumah;
+
+var detail="";
+
+if(pink>0){
+detail+="* Tas Travel Pink × "+pink+"%0A";
+}
+
+if(hitam>0){
+detail+="* Tas Travel Hitam × "+hitam+"%0A";
+}
+
+var totalBarang=pink+hitam;
+var totalHarga=totalBarang*harga;
+var formatHarga=totalHarga.toLocaleString("id-ID");
+
+var pesan=
+"Halo kak, saya ingin melakukan pemesanan.%0A%0A"+
+"*Nama:* "+nama+"%0A%0A"+
+"*Alamat:*%0A"+
+alamat+"%0A("+catatan+")%0A"+
+"Kel: "+kel+"%0A"+
+"Kec: "+kec+"%0A"+
+"Kota: "+kota+"%0A"+
+"Prov: "+prov+"%0A%0A"+
+"*Pesanan:*%0A"+detail+"%0A"+
+"*Pembayaran:* "+pembayaran+"%0A"+
+"Ongkir: Rp0%0A"+
+"*Total:* Rp"+formatHarga+"%0A%0A"+
+"Mohon diproses 🙏";
+
+var url="https://api.whatsapp.com/send?phone=15558770694&text="+pesan;
+
+window.location.href=url;
+
+});
+
+</script>
+
+</body>
+</html>
