@@ -13,14 +13,12 @@ background: linear-gradient(135deg,#4facfe,#00f2fe);
 margin:0;
 }
 
-/* WRAPPER */
 .container{
 max-width:480px;
 margin:auto;
 padding:20px 12px 40px;
 }
 
-/* CARD */
 .box{
 background:white;
 padding:20px 16px;
@@ -28,12 +26,10 @@ border-radius:18px;
 box-shadow:0 10px 30px rgba(0,0,0,0.15);
 }
 
-/* HEADER */
 .title{
 font-size:20px;
 font-weight:700;
 text-align:center;
-margin-bottom:4px;
 }
 
 .subtitle{
@@ -43,7 +39,6 @@ color:#777;
 margin-bottom:15px;
 }
 
-/* PRODUK */
 .product{
 display:flex;
 gap:10px;
@@ -83,7 +78,6 @@ border:1px solid #ddd;
 text-align:center;
 }
 
-/* INPUT FIX */
 input, select, textarea{
 width:100%;
 padding:12px;
@@ -95,7 +89,6 @@ background:#fafafa;
 box-sizing:border-box;
 }
 
-/* SUMMARY */
 .summary{
 background:#f9fafc;
 padding:14px;
@@ -126,7 +119,6 @@ text-decoration:line-through;
 color:#999;
 }
 
-/* BUTTON */
 button{
 margin-top:18px;
 width:100%;
@@ -152,6 +144,7 @@ font-size:15px;
 
 <form id="formPesanan">
 
+<!-- PRODUK -->
 <div class="product">
 <img src="https://via.placeholder.com/60/ff69b4/ffffff?text=Pink">
 <div class="product-info">
@@ -170,6 +163,7 @@ font-size:15px;
 <input type="number" id="hitam" value="0" min="0" onchange="hitung()">
 </div>
 
+<!-- FORM -->
 <select id="pembayaran">
 <option value="">Metode Pembayaran</option>
 <option value="Cash on Delivery">COD</option>
@@ -187,7 +181,7 @@ font-size:15px;
 <textarea id="catatan" placeholder="Catatan Rumah"></textarea>
 
 <!-- SUMMARY -->
-<div class="summary">
+<div class="summary" id="summaryBox" style="display:none;">
 
 <div class="row">
 <span>Subtotal</span>
@@ -195,7 +189,7 @@ font-size:15px;
 </div>
 
 <div class="row">
-<span>Diskon</span>
+<span>Diskon Produk</span>
 <span class="green" id="diskon">Rp0</span>
 </div>
 
@@ -223,6 +217,7 @@ font-size:15px;
 <script>
 
 var harga=50000;
+var ongkir=25000;
 
 function hitung(){
 
@@ -231,15 +226,27 @@ var hitam=parseInt(document.getElementById("hitam").value)||0;
 
 var qty=pink+hitam;
 
+/* HIDE jika belum pilih */
+if(qty==0){
+document.getElementById("summaryBox").style.display="none";
+return;
+}
+
+/* SHOW */
+document.getElementById("summaryBox").style.display="block";
+
 var subtotal=qty*harga;
-var diskon=(qty>1)?(qty-1)*5000:0;
-var total=subtotal-diskon;
+var diskonProduk=(qty>1)?(qty-1)*5000:0;
+var total=subtotal-diskonProduk;
 
+/* TOTAL HEMAT (produk + ongkir) */
+var totalHemat=diskonProduk+ongkir;
+
+/* UPDATE */
 document.getElementById("subtotal").innerText="Rp"+subtotal.toLocaleString("id-ID");
-document.getElementById("diskon").innerText="- Rp"+diskon.toLocaleString("id-ID");
+document.getElementById("diskon").innerText="- Rp"+diskonProduk.toLocaleString("id-ID");
 document.getElementById("total").innerText="Rp"+total.toLocaleString("id-ID");
-
-document.getElementById("hemat").innerText = diskon>0 ? "Kamu hemat Rp"+diskon.toLocaleString("id-ID") : "";
+document.getElementById("hemat").innerText="Kamu hemat Rp"+totalHemat.toLocaleString("id-ID");
 
 }
 
@@ -276,8 +283,8 @@ return;
 
 var qty=pink+hitam;
 var subtotal=qty*harga;
-var diskon=(qty>1)?(qty-1)*5000:0;
-var total=subtotal-diskon;
+var diskonProduk=(qty>1)?(qty-1)*5000:0;
+var total=subtotal-diskonProduk;
 
 var detail="";
 if(pink>0){detail+="Tas Pink x "+pink+"%0A";}
@@ -289,7 +296,7 @@ var pesan=
 "*Alamat:* "+jalan+" RT."+rt+" No."+rumah+"%0A"+catatan+"%0A"+kota+" "+prov+"%0A%0A"+
 "*Pesanan:*%0A"+detail+
 "%0ASubtotal: Rp"+subtotal.toLocaleString("id-ID")+
-"%0ADiskon: Rp"+diskon.toLocaleString("id-ID")+
+"%0ADiskon: Rp"+diskonProduk.toLocaleString("id-ID")+
 "%0AOngkir: Gratis"+
 "%0A*Total: Rp"+total.toLocaleString("id-ID");
 
