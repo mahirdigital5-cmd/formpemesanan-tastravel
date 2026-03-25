@@ -166,8 +166,8 @@ font-size:15px;
 <!-- FORM -->
 <select id="pembayaran">
 <option value="">Metode Pembayaran</option>
-<option value="Cash on Delivery">COD</option>
-<option value="Transfer Bank">Transfer</option>
+<option value="Cash on Delivery (COD)">COD</option>
+<option value="Transfer">Transfer</option>
 </select>
 
 <input type="text" id="nama" placeholder="Nama Penerima">
@@ -287,8 +287,8 @@ var diskonProduk=(qty>1)?(qty-1)*5000:0;
 var total=subtotal-diskonProduk;
 
 var detail="";
-if(pink>0){detail+="Tas Pink x "+pink+"%0A";}
-if(hitam>0){detail+="Tas Hitam x "+hitam+"%0A";}
+if(pink>0){detail+="Tas Travel Pink x "+pink+"%0A";}
+if(hitam>0){detail+="Tas Travel Hitam x "+hitam+"%0A";}
 
 var pesan=
 "Halo kak, saya ingin melakukan pemesanan.%0A%0A"+
@@ -299,10 +299,10 @@ nama+"%0A%0A"+
 "*Alamat Pengiriman:*%0A"+
 jalan+" RT."+rt+" No."+rumah+"%0A"+
 "("+catatan+")%0A"+
-"Kel : "+kel+"%0A"+
-"Kec : "+kec+"%0A"+
-"Kota : "+kota+"%0A"+
-"Prov : "+prov+"%0A%0A"+
+"*Kel* : "+kel+"%0A"+
+"*Kec* : "+kec+"%0A"+
+"*Kota* : "+kota+"%0A"+
+"*Prov* : "+prov+"%0A%0A"+
 
 "*Detail Pesanan:*%0A"+
 detail+"%0A"+
