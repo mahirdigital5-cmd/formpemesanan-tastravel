@@ -11,14 +11,13 @@ body{
 font-family:'Segoe UI', Arial, sans-serif;
 background: linear-gradient(135deg,#4facfe,#00f2fe);
 margin:0;
-padding:0;
 }
 
 /* WRAPPER */
 .container{
 max-width:500px;
 margin:auto;
-padding:20px 15px 40px;
+padding:20px 15px 100px;
 }
 
 /* CARD */
@@ -26,9 +25,7 @@ padding:20px 15px 40px;
 background:white;
 padding:20px;
 border-radius:20px;
-box-shadow:0 8px 25px rgba(0,0,0,0.15);
-width:100%;
-box-sizing:border-box;
+box-shadow:0 10px 30px rgba(0,0,0,0.15);
 }
 
 /* HEADER */
@@ -36,7 +33,6 @@ box-sizing:border-box;
 font-size:20px;
 font-weight:700;
 text-align:center;
-margin-bottom:5px;
 }
 
 .subtitle{
@@ -46,30 +42,40 @@ color:#666;
 margin-bottom:15px;
 }
 
-/* SECTION */
-.section{
-margin-top:20px;
-}
-
-.section-title{
-font-weight:600;
-margin-bottom:10px;
-font-size:14px;
-}
-
 /* PRODUK */
 .product{
 display:flex;
-justify-content:space-between;
+gap:12px;
 align-items:center;
-padding:14px;
+padding:12px;
 border-radius:12px;
-margin-bottom:10px;
 background:#f6f7f9;
+margin-bottom:10px;
+}
+
+.product img{
+width:60px;
+height:60px;
+border-radius:10px;
+object-fit:cover;
+}
+
+.product-info{
+flex:1;
+}
+
+.product-title{
+font-size:14px;
+font-weight:600;
+}
+
+.product-price{
+font-size:13px;
+color:#888;
 }
 
 .product input{
-width:60px;
+width:55px;
 padding:8px;
 border-radius:8px;
 border:1px solid #ddd;
@@ -88,21 +94,50 @@ box-sizing:border-box;
 background:#fafafa;
 }
 
-textarea{
-min-height:90px;
-resize:none;
+/* SUMMARY */
+.summary{
+background:#f9fafc;
+padding:15px;
+border-radius:12px;
+margin-top:20px;
+font-size:14px;
 }
 
-/* BUTTON */
+.row{
+display:flex;
+justify-content:space-between;
+margin-bottom:8px;
+}
+
+.total{
+font-weight:700;
+font-size:16px;
+}
+
+.strike{
+text-decoration:line-through;
+color:#999;
+}
+
+/* BUTTON STICKY */
+.button-wrap{
+position:fixed;
+bottom:0;
+left:0;
+right:0;
+background:white;
+padding:10px;
+box-shadow:0 -5px 15px rgba(0,0,0,0.1);
+}
+
 button{
-margin-top:20px;
 width:100%;
 padding:15px;
 background: linear-gradient(135deg,#25D366,#128C7E);
 border:none;
 color:white;
 font-weight:600;
-border-radius:14px;
+border-radius:12px;
 font-size:16px;
 }
 
@@ -119,24 +154,26 @@ font-size:16px;
 
 <form id="formPesanan">
 
-<div class="section">
-<div class="section-title">Produk yang dipesan</div>
+<!-- PRODUK -->
+<div class="product">
+<img src="https://via.placeholder.com/60/ff69b4/ffffff?text=Pink">
+<div class="product-info">
+<div class="product-title">Tas Travel Pink</div>
+<div class="product-price">Rp91.000</div>
+</div>
+<input type="number" id="pink" value="0" min="0" onchange="hitung()">
+</div>
 
 <div class="product">
-<span>Tas Travel Pink</span>
-<input type="number" id="pink" value="0" min="0">
+<img src="https://via.placeholder.com/60/000000/ffffff?text=Hitam">
+<div class="product-info">
+<div class="product-title">Tas Travel Hitam</div>
+<div class="product-price">Rp91.000</div>
+</div>
+<input type="number" id="hitam" value="0" min="0" onchange="hitung()">
 </div>
 
-<div class="product">
-<span>Tas Travel Hitam</span>
-<input type="number" id="hitam" value="0" min="0">
-</div>
-
-</div>
-
-<div class="section">
-<div class="section-title">Lengkapi alamat pengiriman</div>
-
+<!-- ALAMAT -->
 <select id="pembayaran">
 <option value="">Metode Pembayaran</option>
 <option value="Cash on Delivery">Cash on Delivery (COD)</option>
@@ -144,42 +181,71 @@ font-size:16px;
 </select>
 
 <input type="text" id="nama" placeholder="Nama Penerima">
-<input type="text" id="jalan" placeholder="Nama Jalan (contoh: JL.Anggrek)">
-<input type="number" id="rt" placeholder="RT (angka)">
-<input type="number" id="rumah" placeholder="No Rumah (angka)">
-<input type="text" id="kelurahan" placeholder="Kelurahan / Desa">
+<input type="text" id="jalan" placeholder="Nama Jalan">
+<input type="number" id="rt" placeholder="RT">
+<input type="number" id="rumah" placeholder="No Rumah">
+<input type="text" id="kelurahan" placeholder="Kelurahan">
 <input type="text" id="kecamatan" placeholder="Kecamatan">
-<input type="text" id="kota" placeholder="Kota / Kabupaten">
+<input type="text" id="kota" placeholder="Kota">
 <input type="text" id="provinsi" placeholder="Provinsi">
-<textarea id="catatan" placeholder="Catatan Rumah / Patokan"></textarea>
+<textarea id="catatan" placeholder="Catatan Rumah"></textarea>
 
+<!-- SUMMARY -->
+<div class="summary">
+<div class="row">
+<span>Subtotal</span>
+<span id="subtotal">Rp0</span>
 </div>
 
-<button type="submit">Kirim Pesanan</button>
+<div class="row">
+<span>Ongkir</span>
+<span><span class="strike">Rp25.000</span> Gratis</span>
+</div>
+
+<div class="row total">
+<span>Total</span>
+<span id="total">Rp0</span>
+</div>
+</div>
 
 </form>
 
 </div>
 </div>
 
+<!-- BUTTON -->
+<div class="button-wrap">
+<button onclick="kirim()">Kirim Pesanan</button>
+</div>
+
 <script>
 
-document.getElementById("formPesanan").addEventListener("submit", function(e){
+var harga=91000;
 
-e.preventDefault();
+function hitung(){
+var pink=parseInt(document.getElementById("pink").value)||0;
+var hitam=parseInt(document.getElementById("hitam").value)||0;
 
-var pink=parseInt(document.getElementById("pink").value) || 0;
-var hitam=parseInt(document.getElementById("hitam").value) || 0;
+var totalBarang=pink+hitam;
+var totalHarga=totalBarang*harga;
+
+document.getElementById("subtotal").innerText="Rp"+totalHarga.toLocaleString("id-ID");
+document.getElementById("total").innerText="Rp"+totalHarga.toLocaleString("id-ID");
+}
+
+function kirim(){
+
+var pink=parseInt(document.getElementById("pink").value)||0;
+var hitam=parseInt(document.getElementById("hitam").value)||0;
 
 if(pink==0 && hitam==0){
-alert("Silakan pilih jumlah tas yang ingin dipesan 😊");
+alert("Pilih produk dulu 😊");
 return;
 }
 
 var pembayaran=document.getElementById("pembayaran").value;
-
 if(pembayaran==""){
-alert("Silakan pilih metode pembayaran dulu 😊");
+alert("Pilih pembayaran 😊");
 return;
 }
 
@@ -193,49 +259,31 @@ var kota=document.getElementById("kota").value;
 var prov=document.getElementById("provinsi").value;
 var catatan=document.getElementById("catatan").value;
 
-if(nama=="" || jalan=="" || rt=="" || rumah=="" || kel=="" || kec=="" || kota=="" || prov=="" || catatan==""){
-alert("Mohon lengkapi semua data alamat 😊");
+if(nama==""||jalan==""||rt==""||rumah==""||kel==""||kec==""||kota==""||prov==""||catatan==""){
+alert("Lengkapi alamat 😊");
 return;
 }
-
-var harga=91000;
 
 var alamat=jalan+" RT."+rt+" No."+rumah;
 
 var detail="";
+if(pink>0){detail+="* Tas Pink × "+pink+"%0A";}
+if(hitam>0){detail+="* Tas Hitam × "+hitam+"%0A";}
 
-if(pink>0){
-detail+="* Tas Travel Pink × "+pink+"%0A";
-}
-
-if(hitam>0){
-detail+="* Tas Travel Hitam × "+hitam+"%0A";
-}
-
-var totalBarang=pink+hitam;
-var totalHarga=totalBarang*harga;
-var formatHarga=totalHarga.toLocaleString("id-ID");
+var total=(pink+hitam)*harga;
 
 var pesan=
-"Halo kak, saya ingin melakukan pemesanan.%0A%0A"+
-"*Nama:* "+nama+"%0A%0A"+
-"*Alamat:*%0A"+
-alamat+"%0A("+catatan+")%0A"+
-"Kel: "+kel+"%0A"+
-"Kec: "+kec+"%0A"+
-"Kota: "+kota+"%0A"+
-"Prov: "+prov+"%0A%0A"+
+"Halo kak saya mau pesan%0A%0A"+
+"*Nama:* "+nama+"%0A"+
+"*Alamat:*%0A"+alamat+"%0A("+catatan+")%0A"+
+kota+", "+prov+"%0A%0A"+
 "*Pesanan:*%0A"+detail+"%0A"+
 "*Pembayaran:* "+pembayaran+"%0A"+
-"Ongkir: Rp0%0A"+
-"*Total:* Rp"+formatHarga+"%0A%0A"+
-"Mohon diproses 🙏";
+"Ongkir: Gratis%0A"+
+"*Total:* Rp"+total.toLocaleString("id-ID");
 
-var url="https://api.whatsapp.com/send?phone=15558770694&text="+pesan;
-
-window.location.href=url;
-
-});
+window.location.href="https://api.whatsapp.com/send?phone=15558770694&text="+pesan;
+}
 
 </script>
 
