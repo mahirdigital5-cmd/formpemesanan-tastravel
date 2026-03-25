@@ -13,14 +13,12 @@ background: linear-gradient(135deg,#4facfe,#00f2fe);
 margin:0;
 }
 
-/* WRAPPER */
 .container{
 max-width:500px;
 margin:auto;
-padding:20px 15px 100px;
+padding:20px 15px 40px;
 }
 
-/* CARD */
 .box{
 background:white;
 padding:20px;
@@ -28,7 +26,6 @@ border-radius:20px;
 box-shadow:0 10px 30px rgba(0,0,0,0.15);
 }
 
-/* HEADER */
 .title{
 font-size:20px;
 font-weight:700;
@@ -42,7 +39,6 @@ color:#666;
 margin-bottom:15px;
 }
 
-/* PRODUK */
 .product{
 display:flex;
 gap:12px;
@@ -82,7 +78,6 @@ border:1px solid #ddd;
 text-align:center;
 }
 
-/* INPUT */
 input, select, textarea{
 width:100%;
 padding:13px;
@@ -90,11 +85,9 @@ margin-top:10px;
 border:1px solid #ddd;
 border-radius:12px;
 font-size:14px;
-box-sizing:border-box;
 background:#fafafa;
 }
 
-/* SUMMARY */
 .summary{
 background:#f9fafc;
 padding:15px;
@@ -114,23 +107,18 @@ font-weight:700;
 font-size:16px;
 }
 
+.green{
+color:#25D366;
+font-weight:600;
+}
+
 .strike{
 text-decoration:line-through;
 color:#999;
 }
 
-/* BUTTON STICKY */
-.button-wrap{
-position:fixed;
-bottom:0;
-left:0;
-right:0;
-background:white;
-padding:10px;
-box-shadow:0 -5px 15px rgba(0,0,0,0.1);
-}
-
 button{
+margin-top:20px;
 width:100%;
 padding:15px;
 background: linear-gradient(135deg,#25D366,#128C7E);
@@ -154,12 +142,11 @@ font-size:16px;
 
 <form id="formPesanan">
 
-<!-- PRODUK -->
 <div class="product">
 <img src="https://via.placeholder.com/60/ff69b4/ffffff?text=Pink">
 <div class="product-info">
 <div class="product-title">Tas Travel Pink</div>
-<div class="product-price">Rp91.000</div>
+<div class="product-price">Rp50.000</div>
 </div>
 <input type="number" id="pink" value="0" min="0" onchange="hitung()">
 </div>
@@ -168,16 +155,15 @@ font-size:16px;
 <img src="https://via.placeholder.com/60/000000/ffffff?text=Hitam">
 <div class="product-info">
 <div class="product-title">Tas Travel Hitam</div>
-<div class="product-price">Rp91.000</div>
+<div class="product-price">Rp50.000</div>
 </div>
 <input type="number" id="hitam" value="0" min="0" onchange="hitung()">
 </div>
 
-<!-- ALAMAT -->
 <select id="pembayaran">
 <option value="">Metode Pembayaran</option>
-<option value="Cash on Delivery">Cash on Delivery (COD)</option>
-<option value="Transfer Bank">Transfer Bank</option>
+<option value="Cash on Delivery">COD</option>
+<option value="Transfer Bank">Transfer</option>
 </select>
 
 <input type="text" id="nama" placeholder="Nama Penerima">
@@ -192,9 +178,15 @@ font-size:16px;
 
 <!-- SUMMARY -->
 <div class="summary">
+
 <div class="row">
 <span>Subtotal</span>
 <span id="subtotal">Rp0</span>
+</div>
+
+<div class="row">
+<span>Diskon</span>
+<span class="green" id="diskon">Rp0</span>
 </div>
 
 <div class="row">
@@ -206,31 +198,39 @@ font-size:16px;
 <span>Total</span>
 <span id="total">Rp0</span>
 </div>
+
+<div class="green" id="hemat"></div>
+
 </div>
+
+<button type="button" onclick="kirim()">Kirim Pesanan</button>
 
 </form>
 
 </div>
 </div>
 
-<!-- BUTTON -->
-<div class="button-wrap">
-<button onclick="kirim()">Kirim Pesanan</button>
-</div>
-
 <script>
 
-var harga=91000;
+var harga=50000;
 
 function hitung(){
+
 var pink=parseInt(document.getElementById("pink").value)||0;
 var hitam=parseInt(document.getElementById("hitam").value)||0;
 
-var totalBarang=pink+hitam;
-var totalHarga=totalBarang*harga;
+var qty=pink+hitam;
 
-document.getElementById("subtotal").innerText="Rp"+totalHarga.toLocaleString("id-ID");
-document.getElementById("total").innerText="Rp"+totalHarga.toLocaleString("id-ID");
+var subtotal=qty*harga;
+var diskon=(qty>1)?(qty-1)*5000:0;
+var total=subtotal-diskon;
+
+document.getElementById("subtotal").innerText="Rp"+subtotal.toLocaleString("id-ID");
+document.getElementById("diskon").innerText="- Rp"+diskon.toLocaleString("id-ID");
+document.getElementById("total").innerText="Rp"+total.toLocaleString("id-ID");
+
+document.getElementById("hemat").innerText = diskon>0 ? "Kamu hemat Rp"+diskon.toLocaleString("id-ID") : "";
+
 }
 
 function kirim(){
@@ -264,23 +264,24 @@ alert("Lengkapi alamat 😊");
 return;
 }
 
-var alamat=jalan+" RT."+rt+" No."+rumah;
+var qty=pink+hitam;
+var subtotal=qty*harga;
+var diskon=(qty>1)?(qty-1)*5000:0;
+var total=subtotal-diskon;
 
 var detail="";
-if(pink>0){detail+="* Tas Pink × "+pink+"%0A";}
-if(hitam>0){detail+="* Tas Hitam × "+hitam+"%0A";}
-
-var total=(pink+hitam)*harga;
+if(pink>0){detail+="Tas Pink x "+pink+"%0A";}
+if(hitam>0){detail+="Tas Hitam x "+hitam+"%0A";}
 
 var pesan=
 "Halo kak saya mau pesan%0A%0A"+
 "*Nama:* "+nama+"%0A"+
-"*Alamat:*%0A"+alamat+"%0A("+catatan+")%0A"+
-kota+", "+prov+"%0A%0A"+
-"*Pesanan:*%0A"+detail+"%0A"+
-"*Pembayaran:* "+pembayaran+"%0A"+
-"Ongkir: Gratis%0A"+
-"*Total:* Rp"+total.toLocaleString("id-ID");
+"*Alamat:* "+jalan+" RT."+rt+" No."+rumah+"%0A"+catatan+"%0A"+kota+" "+prov+"%0A%0A"+
+"*Pesanan:*%0A"+detail+
+"%0ASubtotal: Rp"+subtotal.toLocaleString("id-ID")+
+"%0ADiskon: Rp"+diskon.toLocaleString("id-ID")+
+"%0AOngkir: Gratis"+
+"%0A*Total: Rp"+total.toLocaleString("id-ID");
 
 window.location.href="https://api.whatsapp.com/send?phone=15558770694&text="+pesan;
 }
