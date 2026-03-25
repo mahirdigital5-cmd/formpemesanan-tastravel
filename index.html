@@ -291,14 +291,27 @@ if(pink>0){detail+="Tas Pink x "+pink+"%0A";}
 if(hitam>0){detail+="Tas Hitam x "+hitam+"%0A";}
 
 var pesan=
-"Halo kak saya mau pesan%0A%0A"+
-"*Nama:* "+nama+"%0A"+
-"*Alamat:* "+jalan+" RT."+rt+" No."+rumah+"%0A"+catatan+"%0A"+kota+" "+prov+"%0A%0A"+
-"*Pesanan:*%0A"+detail+
-"%0ASubtotal: Rp"+subtotal.toLocaleString("id-ID")+
-"%0ADiskon: Rp"+diskonProduk.toLocaleString("id-ID")+
-"%0AOngkir: Gratis"+
-"%0A*Total: Rp"+total.toLocaleString("id-ID");
+"Halo kak, saya ingin melakukan pemesanan.%0A%0A"+
+
+"*Nama Lengkap:*%0A"+
+nama+"%0A%0A"+
+
+"*Alamat Pengiriman:*%0A"+
+jalan+" RT."+rt+" No."+rumah+"%0A"+
+"("+catatan+")%0A"+
+"Kel : "+kel+"%0A"+
+"Kec : "+kec+"%0A"+
+"Kota : "+kota+"%0A"+
+"Prov : "+prov+"%0A%0A"+
+
+"*Detail Pesanan:*%0A"+
+detail+"%0A"+
+
+"*Metode Pembayaran:* "+pembayaran+"%0A"+
+"Ongkos Kirim: _*Rp0*_%0A"+
+"*Total Harga:* Rp"+total.toLocaleString("id-ID")+"%0A%0A"+
+
+"Mohon segera diproses ya. Terima kasih 🙏";
 
 window.location.href="https://api.whatsapp.com/send?phone=15558770694&text="+pesan;
 }
